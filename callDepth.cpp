@@ -20,7 +20,6 @@
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include "SwansonObjects/menu.hpp"
 #include "SwansonLibs/swansonInput.hpp"
 
 using namespace std;
