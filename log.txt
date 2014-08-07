@@ -1,0 +1,9 @@
+apple was not found
+Product ID for computer is:4
+Product ID for mouse is:8
+Product ID for computer is:4
+3432q1  lkjad was not found
+33.2 was not found
+Product ID for camera is:13
+Camera was not found
+caMeRa was not found
