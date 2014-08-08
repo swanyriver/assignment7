@@ -140,6 +140,12 @@ int main(){
 
 }
 
+/*I would normally like to put this function as a member of the class
+ * either as an << overload or as a .ToString() method,  but that would
+ * not provide me any opportunities to demonstrate the getter methods
+ * so this one is built using the public function interface to generate a string
+ */
+
 string DisplayItem(InventoryItem item){
    string output, color;
    int age;

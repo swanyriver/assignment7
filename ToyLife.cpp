@@ -20,6 +20,12 @@ struct cord{
    int y;
 };
 
+struct cell{
+   bool alive;
+   cord loc;
+   int neighbors;
+};
+
 int main(){
    pair <int,int> cord1 (5,1);
    pair <int,int> cord2 (1,4);
@@ -41,7 +47,13 @@ int main(){
       cout << " has " << it->second << " neighbors" << endl;
    }
 
-   map<cord,int> neighbors2;
+   /*
+    * I need to learn how to write a custom .less() function object
+    * for this to work
+    * But storing x,y as first and second in a pair is dangerous
+    *
+    */
+   /*map<cord,int> neighbors2;
 
    neighbors2.insert(pair<cord,int>(cord{1,1},2));
    neighbors2.insert(pair<cord,int>(cord{5,8},1));
@@ -55,7 +67,7 @@ int main(){
       cout << "cell at " << it->first.x << "/" << it->first.y;
       cout << " has " << it->second << " neighbors" << endl;
    }
-
+*/
 
 
 }
