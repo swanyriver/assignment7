@@ -114,16 +114,23 @@ int main(){
       }
       cout << quit << ") EXIT INVENTORY" << endl;
       int selection = swansonInput::GetInt
-         ("choose an item to make a sale", 1,myStock.size() + 1);
+         ("choose an item to make a sale:", 1,myStock.size() + 1);
 
       if(selection == quit) break;
 
       InventoryItem *soldItem = myStock.at(selection-1);
 
-      string prompt =  "how much did the " ;
-      prompt +=soldItem->GetName() + " sell for:";
+      float price;
 
-      soldItem->Sell(swansonInput::GetFloat(prompt));
+      if(soldItem->IsSold(price)){
+         cout << "that item was already sold for $" << price << endl << endl;
+      }  else {
+
+         string prompt =  "how much did the " ;
+         prompt +=soldItem->GetName() + " sell for:";
+
+         soldItem->Sell(swansonInput::GetFloat(prompt));
+      }
 
    }
 

@@ -236,7 +236,7 @@ double swansonInput::GetDouble ( string prompt , double rangeMin ,
          if ( attempts > MAX_ATTEMPTS )
             return 0;
 
-         cout << "lets try to restrain ourselves to only"
+         cout << "lets try to restrain ourselves to only "
                << "valid floating point numbers";
          parse_string = swansonInput::GetString( prompt );
       }
