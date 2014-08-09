@@ -12,6 +12,7 @@
 #include <utility>
 #include <set>
 #include <map>
+#include <cstdio>
 
 using namespace std;
 
@@ -28,13 +29,16 @@ struct cell{
 
 class WORLD{
 
-private:
+protected:
+
    const int WORLD_WIDTH;
    const int WORLD_HEIGHT;
+   //const ostream MY_OUTS;
 
    virtual cord* YourNeighbors
    (const cord &loc, const int &width, const int &height)=0;
    //return [8] cords
+
 public:
    //////necesary conditions///////////
    /*
@@ -45,7 +49,9 @@ public:
     *
     */
 
-   WORLD(int width,int height):WORLD_WIDTH(width), WORLD_HEIGHT(height){};
+   WORLD(int width,int height, ostream outs, set<cord> start):
+      WORLD_WIDTH(width), WORLD_HEIGHT(height) ////MY_OUTS(outs)
+      {};
 
    ////////////////////////////
    //called by GOD ////////////
@@ -76,8 +82,20 @@ public:
 
 
    //////////////CALLED BY SOME I/O CONTROLLER////////////
-   virtual char** DisplayWorld()=0;
+   //virtual char** DisplayWorld(ostream &outs = MY_OUTS)=0;
+   friend ostream& operator << (ostream &outs, const WORLD* &i);
 
+};
+
+class WorldBuilder{
+protected:
+   const int WORLD_WIDTH;
+   const int WORLD_HEIGHT;
+   //ostream MY_OUTS;
+public:
+   WorldBuilder(int width,int height, ostream &outs):
+         WORLD_WIDTH(width), WORLD_HEIGHT(height){} //, MY_OUTS(outs) {};
+   virtual WORLD* buildWord() = 0;
 };
 
 class ANGELofLIFE{
@@ -103,6 +121,9 @@ private:
    WORLD *myWORLD;
    ANGELofLIFE *myAngel;
 public:
+
+   GOD(WorldBuilder *creator);
+
    void Generation(){
       myWORLD->generation();
       myWORLD->CountNeighbors();
