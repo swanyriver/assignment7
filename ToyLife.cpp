@@ -26,6 +26,91 @@ struct cell{
    int neighbors;
 };
 
+class WORLD{
+
+private:
+   const int WORLD_WIDTH;
+   const int WORLD_HEIGHT;
+
+   virtual cord* YourNeighbors
+   (const cord &loc, const int &width, const int &height)=0;
+   //return [8] cords
+public:
+   //////necesary conditions///////////
+   /*
+    * 2 Generations tracked,
+    * living is mapped onto next generation
+    * next generations starts off blank
+    *    (required to avoid the unchecked isolated cells persisting)
+    *
+    */
+
+   WORLD(int width,int height):WORLD_WIDTH(width), WORLD_HEIGHT(height){};
+
+   ////////////////////////////
+   //called by GOD ////////////
+   ////////////////////////////
+   virtual void generation() = 0; ///switch generaton data set pointers
+   virtual void CountNeighbors()=0; //mutator method, increments neighbor counts
+
+   ////////////////////////////
+   //called by Angel//////////
+   ////////////////////////////
+
+   //used to iterate over living cells and their Auroa (neighbor cells)
+   // for( ; !world.NeighborCellsEnd() ; myCell = NextNeighbor() ){ }
+   virtual bool NeighborCellsEnd() = 0;
+   virtual cell NextNeighbor() = 0;
+
+   //answer if there is a living cell in location
+   virtual bool IsLiving(const cord &loc)=0;
+
+   //used to iterate over living cells
+   //currently don't plan to use, but I will make it available
+   virtual bool LivingCellsEnd() = 0;
+   virtual cell NextCell() = 0;
+
+   //called by Angel after Calculations
+   virtual void Live(const cord &loc)=0;
+   virtual void Die(const cord &loc)=0;  //under current design does nothing
+
+
+   //////////////CALLED BY SOME I/O CONTROLLER////////////
+   virtual char** DisplayWorld()=0;
+
+};
+
+class ANGELofLIFE{
+private:
+   WORLD *myWorld;
+public:
+   ANGELofLIFE(WORLD *world): myWorld(world){};
+
+   virtual void Generation(){
+      cell myCell;
+      for( ; !myWorld->NeighborCellsEnd() ; myCell = myWorld->NextNeighbor() ){
+         if(myCell.alive){
+            if(myCell.neighbors==2) myWorld->Live(myCell.loc);
+            else myWorld->Die(myCell.loc);
+         }
+      }
+   }
+   //mark cells in next generation of world for life
+};
+
+class GOD{
+private:
+   WORLD *myWORLD;
+   ANGELofLIFE *myAngel;
+public:
+   void Generation(){
+      myWORLD->generation();
+      myWORLD->CountNeighbors();
+      myAngel->Generation();
+   }
+};
+
+
 int main(){
    pair <int,int> cord1 (5,1);
    pair <int,int> cord2 (1,4);
