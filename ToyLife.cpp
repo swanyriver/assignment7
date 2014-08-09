@@ -78,6 +78,7 @@ public:
 
    //called by Angel after Calculations
    virtual void Live(const cord &loc)=0;
+   virtual void Birth(const cord &loc)=0; //under current design dupes Live
    virtual void Die(const cord &loc)=0;  //under current design does nothing
 
 
@@ -110,7 +111,9 @@ public:
          if(myCell.alive){
             if(myCell.neighbors==2) myWorld->Live(myCell.loc);
             else myWorld->Die(myCell.loc);
-         }
+         } else { //not living cell
+	    if(myCell.neighbors==3) myWorld->Birth(myCell.loc);
+	 }
       }
    }
    //mark cells in next generation of world for life
